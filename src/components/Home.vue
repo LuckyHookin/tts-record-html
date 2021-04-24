@@ -11,7 +11,7 @@
       </v-col>
       <v-col cols="12" class="pt-0">
         <v-row>
-          <v-col>
+          <v-col cols="8">
             <v-row>
               <v-col class="pb-1">
                 <v-select
@@ -26,10 +26,11 @@
             <v-row>
               <v-col class="pt-0" v-for="ex in [rate, pitch]" :key="ex.label">
                 <v-slider
+                class="pr-5"
                   v-model="ex.val"
                   :label="ex.label"
                   persistent-hint
-                  :hint="ex.val+''"
+                  :hint="ex.hint"
                   thumb-label
                   thumb-size="24"
                   tick-size="4"
@@ -39,6 +40,12 @@
                   min="0"
                   step="0.1"
                 >
+                <template v-slot:append>
+              <span
+                class="mt-0 pt-0"
+                style="width: 5px"
+              >{{ex.val}}</span>
+            </template>
                 </v-slider>
               </v-col>
             </v-row>
@@ -68,8 +75,8 @@ export default {
     synth: window.speechSynthesis,
     voiceList: [],
     voices: [],
-    rate: { label: "速度", val: 1 },
-    pitch: { label: "音调", val: 1 },
+    rate: { label: "速度", val: 1, hint:"" },
+    pitch: { label: "音调", val: 1, hint:"可能是无效的" },
   }),
   created() {
     setTimeout(() => {
