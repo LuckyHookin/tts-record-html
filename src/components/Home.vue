@@ -74,10 +74,12 @@
         <v-text-field
           v-model="fileDir"
           outlined
-          label="存放到此文件夹："
+          label="存放到此文件夹下："
           dense
           readonly
           @click="getFileDir"
+          persistent-hint
+          hint="文件名示例：2002-11-12 22.33.44-Record.wav"
         >
         </v-text-field>
       </v-col>
