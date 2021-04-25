@@ -74,12 +74,24 @@
         <v-text-field
           v-model="fileDir"
           outlined
-          label="存放到此文件夹下："
+          label="存放到此文件夹下"
           dense
           readonly
           @click="getFileDir"
           persistent-hint
           hint="文件名示例：2002-11-12 22.33.44-Record.wav"
+        >
+        </v-text-field>
+      </v-col>
+      <v-col cols="3">
+        <v-text-field
+          v-model="maxTime"
+          type="number"
+          outlined
+          label="最大录制时间"
+          dense
+          persistent-hint
+          hint="单位: 分钟, 默认 30 分钟"
         >
         </v-text-field>
       </v-col>
@@ -102,14 +114,15 @@ export default {
     speaking: false,
     recording: false,
     fileDir: "",
+    maxTime: 30,// 分钟
   }),
   created() {
     setTimeout(() => {
       this.populateVoiceList();
     }, 200);
     // get default FileDir
-    this.fileDir=aardio.getFileDir("./").then((fileDir)=>{
-      this.fileDir=fileDir;
+    this.fileDir = aardio.getFileDir("./").then((fileDir) => {
+      this.fileDir = fileDir;
     });
   },
   methods: {
@@ -169,14 +182,14 @@ export default {
     },
     record() {
       // 向宿主发送开始录制请求
-      aardio.startRecord(this.fileDir,60*30);
+      aardio.startRecord(this.fileDir, this.maxTime * 60); // 分钟转秒
       this.recording = true;
       this.speak();
     },
-    getFileDir(){
-      aardio.getFileDir().then((dir)=>{
+    getFileDir() {
+      aardio.getFileDir().then((dir) => {
         this.fileDir = dir;
-      })
+      });
     },
   },
 };
