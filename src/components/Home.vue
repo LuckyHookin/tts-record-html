@@ -71,7 +71,15 @@
     <v-row>
       <v-col cols="12"><h3>设置</h3></v-col>
       <v-col cols="8">
-        <v-text-field  outlined label="存放的此文件夹：" suffix="/wave/" dense></v-text-field>
+        <v-text-field
+          v-model="fileDir"
+          outlined
+          label="存放到此文件夹："
+          dense
+          readonly
+          @click="getFileDir"
+        >
+        </v-text-field>
       </v-col>
     </v-row>
   </v-container>
@@ -91,11 +99,16 @@ export default {
     pitch: { label: "音调", val: 1, hint: "此项可能是无效的" },
     speaking: false,
     recording: false,
+    fileDir: "",
   }),
   created() {
     setTimeout(() => {
       this.populateVoiceList();
     }, 200);
+    // get default FileDir
+    this.fileDir=aardio.getFileDir("./").then((fileDir)=>{
+      this.fileDir=fileDir;
+    });
   },
   methods: {
     populateVoiceList() {
@@ -134,12 +147,10 @@ export default {
         console.log("SpeechSynthesisUtterance.onend");
         this.speaking = false;
         if (this.recording) {
-          this.recording=false;
+          this.recording = false;
           // 正在录制，向宿主发送停止录制请求
           aardio.stopRecord();
-          
         }
-        
       };
       this.utterThis.onerror = function () {
         console.error("SpeechSynthesisUtterance.onerror");
@@ -156,9 +167,14 @@ export default {
     },
     record() {
       // 向宿主发送开始录制请求
-      aardio.startRecord();
-      this.recording=true;
+      aardio.startRecord(this.fileDir,60*30);
+      this.recording = true;
       this.speak();
+    },
+    getFileDir(){
+      aardio.getFileDir().then((dir)=>{
+        this.fileDir = dir;
+      })
     },
   },
 };
