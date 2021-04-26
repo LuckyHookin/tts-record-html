@@ -74,7 +74,7 @@
         <v-text-field
           v-model="fileDir"
           outlined
-          label="存放到此文件夹下"
+          label="录制文件存放到此文件夹下"
           dense
           readonly
           @click="getFileDir"
