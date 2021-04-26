@@ -91,7 +91,7 @@
           label="最大录制时间"
           dense
           persistent-hint
-          hint="单位: 分钟, 默认 30 分钟"
+          hint="单位: 分钟, 默认值为 30"
         >
         </v-text-field>
       </v-col>
@@ -114,12 +114,12 @@ export default {
     speaking: false,
     recording: false,
     fileDir: "",
-    maxTime: 30,// 分钟
+    maxTime: 30, // 分钟
   }),
   created() {
     setTimeout(() => {
       this.populateVoiceList();
-    }, 200);
+    }, 400);
     // get default FileDir
     this.fileDir = aardio.getFileDir("./").then((fileDir) => {
       this.fileDir = fileDir;
@@ -182,7 +182,10 @@ export default {
     },
     record() {
       // 向宿主发送开始录制请求
-      aardio.startRecord(this.fileDir, this.maxTime * 60); // 分钟转秒
+      aardio.startRecord(
+        this.fileDir,
+        this.maxTime ? this.maxTime * 60 : 30 * 60// 默认30分钟
+      ); // 分钟转秒
       this.recording = true;
       this.speak();
     },
