@@ -15,15 +15,9 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+相关仓库：
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+edge-TTS-record（aardio，把各部分封装到单个 .exe 程序）：https://github.com/LuckyHookin/tts-record-html
+
+录制音频模块（C#，NAudio）：https://github.com/LuckyHookin/RecordAudio
